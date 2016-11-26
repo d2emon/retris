@@ -3,7 +3,7 @@
 int main()
 {
     // Create the main window
-    sf::RenderWindow app(sf::VideoMode(800, 600), "SFML window");
+    sf::RenderWindow app(sf::VideoMode(800, 600), "Retris");
 
     // Load a sprite to display
     sf::Texture texture;
@@ -25,7 +25,7 @@ int main()
         }
 
         // Clear screen
-        app.clear();
+        app.clear(sf::Color::White);
 
         // Draw the sprite
         app.draw(sprite);
