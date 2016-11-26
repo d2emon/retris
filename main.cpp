@@ -31,6 +31,10 @@ int main()
     sf::Sprite sprite(texture);
     sprite.setTextureRect(sf::IntRect(0, 0, 18, 18));
 
+    int dx=0;
+    bool rotate=0;
+    int colorNum=1;
+
 	// Start the game loop
     while (app.isOpen())
     {
@@ -42,14 +46,41 @@ int main()
             if (event.type == sf::Event::Closed ||
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
                 app.close();
+
+            if (event.type == sf::Event::KeyPressed)
+                if (event.key.code == sf::Keyboard::Up) rotate = true;
+                else if (event.key.code == sf::Keyboard::Left) dx = -1;
+                else if (event.key.code == sf::Keyboard::Right) dx = 1;
+        }
+
+        // Movement
+        for(int i=0; i<4; i++)
+            a[i].x += dx;
+
+        // Rotation
+        if (rotate)
+        {
+            Point p = a[1];
+            for(int i=0; i<4; i++)
+            {
+                int x = a[i].y - p.y;
+                int y = a[i].x - p.x;
+
+                a[i].x = p.x - x;
+                a[i].y = p.y - y;
+            }
         }
 
         int n=3;
+        if(a[0].x == 0)
         for(int i=0; i<4; i++)
         {
             a[i].x = figures[n][i] % 2;
             a[i].y = figures[n][i] / 2;
         }
+
+        dx = 0;
+        rotate = 0;
 
         // Clear screen
         app.clear(sf::Color::White);
