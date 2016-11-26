@@ -9,7 +9,9 @@ int main()
     sf::Texture texture;
     if (!texture.loadFromFile("res/tiles.png"))
         return EXIT_FAILURE;
+
     sf::Sprite sprite(texture);
+    sprite.setTextureRect(sf::IntRect(0, 0, 18, 18));
 
 	// Start the game loop
     while (app.isOpen())
