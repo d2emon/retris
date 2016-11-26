@@ -34,10 +34,18 @@ int main()
     int dx=0;
     bool rotate=0;
     int colorNum=1;
+    float timer=0;
+    float delay=0.3;
+
+    sf::Clock clock;
 
 	// Start the game loop
     while (app.isOpen())
     {
+        float time = clock.getElapsedTime().asSeconds();
+        clock.restart();
+        timer += time;
+
         // Process events
         sf::Event event;
         while (app.pollEvent(event))
@@ -69,6 +77,14 @@ int main()
                 a[i].x = p.x - x;
                 a[i].y = p.y - y;
             }
+        }
+
+        // Tick
+        if(timer > delay)
+        {
+            for(int i=0; i<4; i++)
+                a[i].y += 1;
+            timer = 0;
         }
 
         int n=3;
