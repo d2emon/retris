@@ -42,12 +42,18 @@ int main()
     sf::RenderWindow app(sf::VideoMode(800, 600), "Retris");
 
     // Load a sprite to display
-    sf::Texture texture;
-    if (!texture.loadFromFile("res/tiles.png"))
+    sf::Texture texture1;
+    sf::Texture texture2;
+    sf::Texture texture3;
+
+    if (!texture1.loadFromFile("res/tiles.png"))
+        return EXIT_FAILURE;
+    if (!texture2.loadFromFile("res/background.png"))
         return EXIT_FAILURE;
 
+    sf::Sprite background(texture2);
     // Select one sprite from texture
-    sf::Sprite sprite(texture);
+    sf::Sprite sprite(texture1);
     sprite.setTextureRect(sf::IntRect(0, 0, 18, 18));
 
     int dx=0; // Horizontal movement
@@ -185,6 +191,7 @@ int main()
 
         // Clear screen
         app.clear(sf::Color::White);
+        app.draw(background);
 
         // Draw field
         for(int i=0; i<M; i++)
@@ -195,7 +202,8 @@ int main()
                     continue;
                 sprite.setTextureRect(sf::IntRect(field[i][j] * 18, 0, 18, 18));
                 // Set point position
-                sprite.setPosition(j * 18 + 16, i * 18 + 16);
+                sprite.setPosition(j * 18, i * 18);
+                sprite.move(28, 31);
                 app.draw(sprite);
             }
 
@@ -203,7 +211,8 @@ int main()
         for(int i=0; i<4; i++)
         {
             sprite.setTextureRect(sf::IntRect(colorNum * 18, 0, 18, 18));
-            sprite.setPosition(a[i].x * 18 + 16, a[i].y * 18 + 16);
+            sprite.setPosition(a[i].x * 18, a[i].y * 18);
+            sprite.move(28, 31);
             app.draw(sprite);
         }
 
