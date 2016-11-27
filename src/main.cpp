@@ -1,8 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
-
-const int M=20;
-const int N=10;
+#include "settings.hpp"
 
 // Game field
 int field[M][N]={0};
@@ -39,22 +37,28 @@ int main()
     srand(time(0));
 
     // Create the main window
-    sf::RenderWindow app(sf::VideoMode(800, 600), "Retris");
+    sf::RenderWindow app(sf::VideoMode(winSize[0], winSize[1]), gameTitle);
 
     // Load a sprite to display
-    sf::Texture texture1;
-    sf::Texture texture2;
-    sf::Texture texture3;
+    int backgroundId = rand() % backgroundsCount;
 
-    if (!texture1.loadFromFile("res/tiles.png"))
+    sf::Texture tBackground;
+    if (!tBackground.loadFromFile(backgrounds[backgroundId]))
         return EXIT_FAILURE;
-    if (!texture2.loadFromFile("res/background.png"))
-        return EXIT_FAILURE;
+    sf::Sprite sBackground(tBackground);
 
-    sf::Sprite background(texture2);
+    sf::Texture tInterface;
+    if (!tInterface.loadFromFile(interface))
+        return EXIT_FAILURE;
+    sf::Sprite sInterface(tInterface);
+
+    sf::Texture tTiles;
+    if (!tTiles.loadFromFile("res/tiles.png"))
+        return EXIT_FAILURE;
+    sf::Sprite sTiles(tTiles);
+
     // Select one sprite from texture
-    sf::Sprite sprite(texture1);
-    sprite.setTextureRect(sf::IntRect(0, 0, 18, 18));
+    sTiles.setTextureRect(sf::IntRect(0, 0, pointSize[0], pointSize[1]));
 
     int dx=0; // Horizontal movement
     bool rotate=0; // Rotation
@@ -76,6 +80,10 @@ int main()
         a[i].y = figures[n][i] / 2;
     }
     //
+
+    // Clear screen
+    //app.clear(sf::Color::White);
+    app.draw(sBackground);
 
 	// Start the game loop
     while (app.isOpen())
@@ -189,9 +197,8 @@ int main()
         rotate = 0;
         delay = 0.3;
 
-        // Clear screen
-        app.clear(sf::Color::White);
-        app.draw(background);
+        app.draw(sInterface);
+
 
         // Draw field
         for(int i=0; i<M; i++)
@@ -200,20 +207,20 @@ int main()
                 // Skip if empty
                 if(field[i][j] == 0)
                     continue;
-                sprite.setTextureRect(sf::IntRect(field[i][j] * 18, 0, 18, 18));
+                sTiles.setTextureRect(sf::IntRect(field[i][j] * pointSize[0], 0, pointSize[0], pointSize[1]));
                 // Set point position
-                sprite.setPosition(j * 18, i * 18);
-                sprite.move(28, 31);
-                app.draw(sprite);
+                sTiles.setPosition(j * pointSize[0], i * pointSize[1]);
+                sTiles.move(28, 18);
+                app.draw(sTiles);
             }
 
         // Draw the sprite
         for(int i=0; i<4; i++)
         {
-            sprite.setTextureRect(sf::IntRect(colorNum * 18, 0, 18, 18));
-            sprite.setPosition(a[i].x * 18, a[i].y * 18);
-            sprite.move(28, 31);
-            app.draw(sprite);
+            sTiles.setTextureRect(sf::IntRect(colorNum * pointSize[0], 0, pointSize[0], pointSize[1]));
+            sTiles.setPosition(a[i].x * pointSize[0], a[i].y * pointSize[1]);
+            sTiles.move(28, 18);
+            app.draw(sTiles);
         }
 
         // Update the window
