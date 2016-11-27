@@ -8,6 +8,7 @@ int winSize[2] = {800, 600};
 
 const int M=20;
 const int N=10;
+int boxPosition[2] = {28, 18};
 int boxSize[2] = {N, M};
 int pointSize[2] = {18, 18};
 

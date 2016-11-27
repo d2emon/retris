@@ -184,16 +184,15 @@ int main()
         app.draw(sInterface);
 
         // Draw field
-        for(int i=0; i<M; i++)
-            for(int j=0; j<N; j++)
+        for(int i=0; i<boxSize[1]; i++)
+            for(int j=0; j<boxSize[0]; j++)
             {
-                // Skip if empty
                 if(field[i][j] == 0)
                     continue;
+
                 sTiles.setTextureRect(sf::IntRect(field[i][j] * pointSize[0], 0, pointSize[0], pointSize[1]));
-                // Set point position
                 sTiles.setPosition(j * pointSize[0], i * pointSize[1]);
-                sTiles.move(28, 18);
+                sTiles.move(boxPosition[0], boxPosition[1]);
                 app.draw(sTiles);
             }
 
@@ -202,11 +201,10 @@ int main()
         {
             sTiles.setTextureRect(sf::IntRect(colorNum * pointSize[0], 0, pointSize[0], pointSize[1]));
             sTiles.setPosition(a[i].x * pointSize[0], a[i].y * pointSize[1]);
-            sTiles.move(28, 18);
+            sTiles.move(boxPosition[0], boxPosition[1]);
             app.draw(sTiles);
         }
 
-        // Update the window
         app.display();
     }
 
