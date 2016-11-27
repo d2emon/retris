@@ -12,8 +12,8 @@ int boxPosition[2] = {28, 18};
 int boxSize[2] = {N, M};
 int pointSize[2] = {18, 18};
 
-int backgroundsCount = 11;
-sf::String backgrounds[11] = {
+int backgroundsCount = 10;
+sf::String backgrounds[10] = {
     "res/background/1.png",
     "res/background/2.png",
     "res/background/3.png",
