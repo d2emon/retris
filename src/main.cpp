@@ -57,35 +57,31 @@ int main()
         return EXIT_FAILURE;
     sf::Sprite sTiles(tTiles);
 
-    // Select one sprite from texture
     sTiles.setTextureRect(sf::IntRect(0, 0, pointSize[0], pointSize[1]));
 
-    int dx=0; // Horizontal movement
-    bool rotate=0; // Rotation
-    int colorNum=1; // ColorID
-    float timer=0;  // Elapsed time
-    float delay=0.3; // FPS delay
+    // Initialize
+    int dx = 0;
+    bool rotate = 0;
+    int colorNum = 1 + rand() % 7;
 
-    sf::Clock clock; // Clock
+    // Clock
+    float timer = 0;
+    float delay = 0.3;
+    sf::Clock clock;
 
-    //
-    // Change color
-    colorNum = 1 + rand() % 7;
     // Change figure ID
     int n = rand() % 7;
     if(a[0].x == 0)
-    for(int i=0; i<4; i++)
-    {
-        a[i].x = figures[n][i] % 2;
-        a[i].y = figures[n][i] / 2;
-    }
-    //
+        for(int i=0; i<4; i++)
+        {
+            a[i].x = figures[n][i] % 2;
+            a[i].y = figures[n][i] / 2;
+        }
 
     // Clear screen
     //app.clear(sf::Color::White);
     app.draw(sBackground);
 
-	// Start the game loop
     while (app.isOpen())
     {
         // Updating timer
@@ -97,7 +93,6 @@ int main()
         sf::Event event;
         while (app.pollEvent(event))
         {
-            // Close window : exit
             if (event.type == sf::Event::Closed ||
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
                 app.close();
@@ -116,10 +111,9 @@ int main()
         for(int i=0; i<4; i++)
         {
             b[i] = a[i];
-            a[i].x += dx; // Move by dx
+            a[i].x += dx;
         }
 
-        // Don't move if on ground
         if(!check())
             for(int i=0; i<4; i++)
                 a[i] = b[i];
@@ -127,10 +121,9 @@ int main()
         // Rotation
         if (rotate)
         {
-            Point p = a[1]; // Rotation center
+            Point p = a[1];
             for(int i=0; i<4; i++)
             {
-                // Vector from center
                 int x = a[i].y - p.y;
                 int y = a[i].x - p.x;
 
@@ -138,8 +131,6 @@ int main()
                 a[i].y = p.y + y;
             }
 
-            // ???
-            // Don't rotate if on ground
             if(!check())
                 for(int i=0; i<4; i++)
                     a[i] = b[i];
@@ -148,25 +139,19 @@ int main()
         // Tick
         if(timer > delay)
         {
-            // Drop one square down
             for(int i=0; i<4; i++)
             {
                 b[i] = a[i];
                 a[i].y += 1;
             }
 
-            // If on ground
             if(!check())
             {
-                // Add figure to field
                 for(int i=0; i<4; i++)
                     field[b[i].y][b[i].x] = colorNum;
 
-                // Change color
                 colorNum = 1 + rand() % 7;
-                // Change figure ID
                 int n = rand() % 7;
-                // Add new figure
                 for(int i=0; i<4; i++)
                 {
                     a[i].x = figures[n][i] % 2;
@@ -174,7 +159,6 @@ int main()
                 }
             }
 
-            // Reset timer
             timer = 0;
         }
 
@@ -198,7 +182,6 @@ int main()
         delay = 0.3;
 
         app.draw(sInterface);
-
 
         // Draw field
         for(int i=0; i<M; i++)
